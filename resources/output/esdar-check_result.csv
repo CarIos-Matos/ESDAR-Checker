@@ -1,0 +1,2 @@
+URL,MX Record,SPF Record,DKIM Record,DMARC Record
+"['swica.ch', [<DNS IN MX rdata: 10 swica-ch.gate.seppmail.cloud.>], 'v=spf1 mx:hin.ch ip4:194.209.209.205 ip4:194.209.230.121 ip4:194.209.230.122 include:_spfip.aspectra.com include:_spf.ntgt.de include:_csod2.swica.ch include:_spf.ch.seppmail.cloud include:_spf2.swica.ch ~all', 'No selector choosen, Provide a selector with the --selector [""SELECTOR""] option', 'Record: v=DMARC1; p=none; rua=mailto:dmarc@swica.ch; Location: swica.ch']"
