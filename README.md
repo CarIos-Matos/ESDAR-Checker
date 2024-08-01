@@ -13,7 +13,7 @@ Prerequisites:
 6. When you succesfully activatet the virtual enviroment you can install the missing 'checkdmarc' module with the following Command ``` python -m pip install checkdmarc==4.1.1```
 7. Open the python file 'config.py' in the ESDAR-Checker directory
 8. and enter the FULL path to the ouptut directory which you can find in the resources folder.
-9. you have to escape every \ with \ so for example 'C:\\Users\\[USERNAME]\\Downloads\\ESDAR-Checker-1.0.0-beta\\resources\\output'
+9. you have to escape every \ with \ so for example 'C:\\Users\\[USERNAME]\\Downloads\\ESDAR-Checker-1.0.0-beta\\resources\\output' or 'C:/Users/[USERNAME]/Downloads/ESDAR-Checker-1.0.0-beta/resources/output' 
 10. Now your ready to run the ESDAR-Checker!
 
 ---
