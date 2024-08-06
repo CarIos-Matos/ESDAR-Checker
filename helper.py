@@ -1,7 +1,7 @@
 """
 @author Merlin von der Weide
-@version 1.0.0-beta
-@date 30.07.2024
+@version 1.1.0-beta
+@date 06.08.2024
 """
 
 
