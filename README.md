@@ -17,6 +17,17 @@ Prerequisites:
 10. Now your ready to run the ESDAR-Checker!
 
 ---
+## How to run ESDAR-Checker (Powershell)
+```python .\ESDAR-Checker.py --domain "google.com"```
+
+```python .\ESDAR-Checker.py --domains_file "[ABSOLUTE_PATH_TO_CSV_FILE]"```
+**Optional Parameters:**
+- ```--selector [SELECTOR]``` (default is no selector)
+- ```--append [yes/]``` (default is not append)
+
+e.g: ```python .\ESDAR-Checker.py --domain "google.com" --selector "EXAMPLE" --append "yes"```
+
+---
 
 ## Use Case
 Diese Skript soll dem Benutzer helfen eine beliebige anzahl an Domains respektive URL's auf folgende Punkte zu ueberpruefen
