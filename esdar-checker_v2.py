@@ -61,6 +61,10 @@ def main(args):
     if args.selector:
         selectors.append(args.selector)
 
+    if args.append == "yes":
+        global append_new_lines
+        append_new_lines = True
+
     if args.domain:
         domains_list.append(args.domain)
     else:
@@ -75,7 +79,10 @@ def main(args):
     if len(domains_list) > 0:
         # TODO: no no here should only one domain get provided and after the check it should be immediatly written to the CSV otherwise if there are to many entries it will result in an stack Overflow
         raw_esdar_check_result = perform_esdar_check(domains_list)
-        create_csv_file(raw_esdar_check_result)
+        if append_new_lines == True:
+            write_new_line_to_csv_file(raw_esdar_check_result)
+        else:
+            write_rows_to_csv(raw_esdar_check_result)
 
     else:
         print_error("No domain(s) were provided")
