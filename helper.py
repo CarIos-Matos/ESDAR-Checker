@@ -14,8 +14,8 @@ def remove_new_line_char(domains):
 
 
 def replace_characters(record_to_check):
-    char_to_replace = ","
-    new_char = ";"
+    char_to_replace = ";"
+    new_char = ","
     # for record in record_to_check:
     updated_string = record_to_check.replace(char_to_replace, new_char)
     return updated_string

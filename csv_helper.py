@@ -51,7 +51,10 @@ def write_rows_to_csv(prepared_output):
     try:
         with open(ABSOLUTE_FILE_PATH + OUTPUT_FILENAME, mode='w', newline='') as file:
             writer = csv.writer(file, delimiter=",")
-
+            # Add header Row
+            # Define the headers for the CSV file
+            headers = ["URL", "MX Record", "SPF Record", "DKIM Record", "DMARC Record"]
+            writer.writerow(headers)
             # Write the URL information to the CSV file
             if len(prepared_output) > 1:
                 for url_info in prepared_output:
