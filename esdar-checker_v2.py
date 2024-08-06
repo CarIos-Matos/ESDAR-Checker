@@ -116,8 +116,7 @@ def perform_esdar_check(domains_list):
         return domains_list_result
 
 def lookup_mxrecords(domain):
-    print()
-    print("Testing domain", domain, "for MXRecords...")
+    print(" MXRecords...")
     try:
         mx_record = dns.resolver.resolve(domain, 'MX')
         mail_servers = []
@@ -129,8 +128,7 @@ def lookup_mxrecords(domain):
 
 
 def lookup_spf_record(domain):
-    print()
-    print("Testing domain", domain, "for SPF record...")
+    print(" SPF record...")
     try:
         txt_records = dns.resolver.resolve(domain, "TXT")
     except dns.resolver.NoAnswer:
@@ -146,22 +144,20 @@ def lookup_spf_record(domain):
 # TODO: works so far with one domain but with domain file it doesnt work atm
 def lookup_dkim_record(domain, selector="", iterator=0):
     if selector:
-        print()
-        print("Testing domain", domain, "for DKIM record with selector", selector, "...")
+        print(" DKIM record with selector", selector, "...")
         try:
-            test_dkim = dns.resolver.resolve(selector + '._domainkey.' + domain, 'TXT')
+            test_dkim = dns.resolver.resolve(selector[iterator] + '._domainkey.' + domain, 'TXT')
             for dns_data in test_dkim:
                 if 'DKIM1' in str(dns_data):
                     return str(dns_data)
         except:
-            return "No DKIM record found with selector: %s." % selector
+            return "No DKIM record found."
             pass
-    return "No selector choosen, Provide a selector with the --selector [\"SELECTOR\"] option"
+    return "No selector provided"
 
 
 def lookup_dmarc_record(domain):
-    print()
-    print("Testing domain", domain, "for DMARC record...")
+    print(" DMARC record...")
     dmarc_record_string = ""
     try:
         raw_dmarc_record = checkdmarc.get_dmarc_record(domain, nameservers=["8.8.8.8", "https://ns1.avectris.ch"],
