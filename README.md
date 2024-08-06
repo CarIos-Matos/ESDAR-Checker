@@ -17,6 +17,17 @@ Prerequisites:
 10. Now your ready to run the ESDAR-Checker!
 
 ---
+## How to run ESDAR-Checker (Powershell)
+```python .\ESDAR-Checker.py --domain "google.com"```
+
+```python .\ESDAR-Checker.py --domains_file "[ABSOLUTE_PATH_TO_CSV_FILE]"```
+**Optional Parameters:**
+- ```--selector [SELECTOR]``` (default is no selector)
+- ```--append [yes/]``` (default is not append)
+
+e.g: ```python .\ESDAR-Checker.py --domain "google.com" --selector "EXAMPLE" --append "yes"```
+
+---
 
 ## Use Case
 Diese Skript soll dem Benutzer helfen eine beliebige anzahl an Domains respektive URL's auf folgende Punkte zu ueberpruefen
@@ -29,7 +40,7 @@ Das Skript prüft dabei ob für die oben genannten Punkte ein DNS TXT record vor
 Im Anschluss kann der Record eintrag auf dem Terminal ausgegeben werden oder in ein csv file geschrieben werden.
 
 ## Aktueller Status
-In Entwicklung. Das Skript funktioniert für einzelne Domains das Error Handling ist jedoch noch nicht ausreichend umgesetzt. 
+In Entwicklung. Das Skript funktioniert für einzelne Domains sowie mit einem File welches mehrere Domains beinhaltet. Das Error Handling ist jedoch noch nicht ausreichend umgesetzt. 
 
 ## Probleme
 - csv files geben aktuell noch probleme bei der verarbeitung
