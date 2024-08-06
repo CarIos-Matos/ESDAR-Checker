@@ -93,20 +93,24 @@ def perform_esdar_check(domains_list):
     iterator = 0
     single_domain_result = []
     domains_list_result = []
-    for single_domain in domains_list:
-        # clear the list
-        single_domain_result.clear()
-        # dns security check
-        single_domain_result.append(single_domain)
-        single_domain_result.append(lookup_mxrecords(single_domain))
-        single_domain_result.append(lookup_spf_record(single_domain))
-        single_domain_result.append(lookup_dkim_record(single_domain, selectors, iterator))
-        single_domain_result.append(lookup_dmarc_record(single_domain))
-        domains_list_result.append(single_domain_result.copy())
-        # Iterator is needed if there are multiple domains and therefore multiple selectors for the DKIM Lookup
-        iterator += 1
-    return domains_list_result
-
+    try:
+        for single_domain in domains_list:
+            # clear the list
+            single_domain_result.clear()
+            # dns security check
+            single_domain_result.append(single_domain)
+            print("\nTesting domain %s for:" % single_domain)
+            single_domain_result.append(lookup_mxrecords(single_domain))
+            single_domain_result.append(lookup_spf_record(single_domain))
+            single_domain_result.append(lookup_dkim_record(single_domain, selectors, iterator))
+            single_domain_result.append(lookup_dmarc_record(single_domain))
+            domains_list_result.append(single_domain_result.copy())
+            # Iterator is needed if there are multiple domains and therefore multiple selectors for the DKIM Lookup
+            iterator += 1
+        return domains_list_result
+    except Exception as e:
+        print("Unfixed Error / Bug occured for details read message below:\n %s" % e)
+        return domains_list_result
 
 def lookup_mxrecords(domain):
     print()
