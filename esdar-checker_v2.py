@@ -9,7 +9,7 @@ ESDAR-Checker should help to check for one or more up to a larger number of doma
 @version 1.1.0-beta
 @date 06.08.2024
 """
-from checkdmarc import get_dmarc_record
+import checkdmarc
 import dns.resolver
 # Import Libraries for Domain specific check
 #import pkg_resources
