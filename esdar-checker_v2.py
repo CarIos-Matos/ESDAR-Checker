@@ -6,10 +6,10 @@ ESDAR-Checker should help to check for one or more up to a larger number of doma
 - MX Records
 
 @author Merlin von der Weide
-@version 1.0.0-beta
-@date 30.07.2024
+@version 1.1.0-beta
+@date 06.08.2024
 """
-import checkdmarc
+from checkdmarc import get_dmarc_record
 import dns.resolver
 # Import Libraries for Domain specific check
 #import pkg_resources
@@ -18,7 +18,8 @@ import dns.resolver
 
 # Message Styling
 from banner_message import get_banner_message as banner_message
-from csv_helper import create_csv_file
+from checkdmarc import UnverifiedDMARCURIDestination, MultipleDMARCRecords, DMARCRecordNotFound, InvalidDMARCTagValue
+from csv_helper import *
 from domain_validator import validate_args
 from helper import remove_new_line_char, replace_characters
 from terminal_message_handler import *
@@ -27,6 +28,7 @@ from terminal_message_handler import *
 import argparse
 
 selectors = []
+append_new_lines = False
 
 
 def initialize():
@@ -43,6 +45,9 @@ def initialize():
                                        help="File containing list of domains to check for DNS records (MXRecords/SPF/DKIM/DMARC")
     parser.add_argument("--selector", type=str, default="",
                         help="DKIM selector which is needed for DKIM record lookup")
+
+    parser.add_argument("--append", type=str, default= False,
+                        help="New checked domains are added to already the existing csv file, if no file exists a new file will be created")
 
     arguments = parser.parse_args()
     return arguments
@@ -90,7 +95,7 @@ def perform_esdar_check(domains_list):
         single_domain_result.append(lookup_spf_record(single_domain))
         single_domain_result.append(lookup_dkim_record(single_domain, selectors, iterator))
         single_domain_result.append(lookup_dmarc_record(single_domain))
-        domains_list_result.append(single_domain_result)
+        domains_list_result.append(single_domain_result.copy())
         # Iterator is needed if there are multiple domains and therefore multiple selectors for the DKIM Lookup
         iterator += 1
     return domains_list_result
@@ -128,12 +133,12 @@ def lookup_dkim_record(domain, selector="", iterator=0):
         print()
         print("Testing domain", domain, "for DKIM record with selector", selector, "...")
         try:
-            test_dkim = dns.resolver.resolve(selector[iterator] + '._domainkey.' + domain, 'TXT')
+            test_dkim = dns.resolver.resolve(selector + '._domainkey.' + domain, 'TXT')
             for dns_data in test_dkim:
                 if 'DKIM1' in str(dns_data):
                     return str(dns_data)
         except:
-            return "No DKIM record found."
+            return "No DKIM record found with selector: %s." % selector
             pass
     return "No selector choosen, Provide a selector with the --selector [\"SELECTOR\"] option"
 
@@ -142,7 +147,7 @@ def lookup_dmarc_record(domain):
     print()
     print("Testing domain", domain, "for DMARC record...")
     dmarc_record_string = ""
-    raw_dmarc_record = checkdmarc.get_dmarc_record(domain, nameservers=["8.8.8.8", "https://ns1.avectris.ch"],
+    raw_dmarc_record = get_dmarc_record(domain, nameservers=["8.8.8.8", "https://ns1.avectris.ch"],
                                                    timeout=10)
     dmarc_record_list = list(raw_dmarc_record.items())
     (record, location, parsed) = dmarc_record_list
