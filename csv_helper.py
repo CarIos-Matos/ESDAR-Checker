@@ -9,6 +9,8 @@ import sys
 
 from config import ABSOLUTE_FILE_PATH
 
+OUTPUT_FILENAME = "esdar-check_result.csv"
+
 
 def prepare_csv_output(security_check_result):
     # TODO: Design the output for the CSV output.
