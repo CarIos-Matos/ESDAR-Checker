@@ -29,7 +29,7 @@ Das Skript prüft dabei ob für die oben genannten Punkte ein DNS TXT record vor
 Im Anschluss kann der Record eintrag auf dem Terminal ausgegeben werden oder in ein csv file geschrieben werden.
 
 ## Aktueller Status
-In Entwicklung. Das Skript funktioniert für einzelne Domains das Error Handling ist jedoch noch nicht ausreichend umgesetzt. 
+In Entwicklung. Das Skript funktioniert für einzelne Domains sowie mit einem File welches mehrere Domains beinhaltet. Das Error Handling ist jedoch noch nicht ausreichend umgesetzt. 
 
 ## Probleme
 - csv files geben aktuell noch probleme bei der verarbeitung
