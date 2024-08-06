@@ -109,6 +109,9 @@ def perform_esdar_check(domains_list):
             iterator += 1
         return domains_list_result
     except Exception as e:
+        """
+        If a unhandled error occurs the already looked up URL's get written to the csv and the Script gets terminated
+        """
         print("Unfixed Error / Bug occured for details read message below:\n %s" % e)
         return domains_list_result
 
@@ -132,6 +135,8 @@ def lookup_spf_record(domain):
         txt_records = dns.resolver.resolve(domain, "TXT")
     except dns.resolver.NoAnswer:
         return "no SPF Record found"
+    except dns.resolver.LifetimeTimeout:
+        return "Timeout, SPF could not be retrieved"
     for record in txt_records:
         spf_record = "".join([a.decode("utf-8") for a in record.strings])
         if "v=spf" in spf_record:
@@ -158,12 +163,17 @@ def lookup_dmarc_record(domain):
     print()
     print("Testing domain", domain, "for DMARC record...")
     dmarc_record_string = ""
-    raw_dmarc_record = get_dmarc_record(domain, nameservers=["8.8.8.8", "https://ns1.avectris.ch"],
-                                                   timeout=10)
-    dmarc_record_list = list(raw_dmarc_record.items())
-    (record, location, parsed) = dmarc_record_list
-    dmarc_record_string += "Record: " + record[1] + "; " + "Location: " + location[1]
-    return replace_characters(dmarc_record_string)
+    try:
+        raw_dmarc_record = checkdmarc.get_dmarc_record(domain, nameservers=["8.8.8.8", "https://ns1.avectris.ch"],
+                                                       timeout=10)
+        dmarc_record_list = list(raw_dmarc_record.items())
+        (record, location, parsed) = dmarc_record_list
+        dmarc_record_string += "Record: " + record[1] + "; " + "Location: " + location[1]
+        return replace_characters(dmarc_record_string)
+    except (UnverifiedDMARCURIDestination, MultipleDMARCRecords, DMARCRecordNotFound ) as e:
+        return e
+    except (InvalidDMARCTagValue):
+        return "Tag Value Error"
 
 
 def prepare_summary_output(security_check_result):
