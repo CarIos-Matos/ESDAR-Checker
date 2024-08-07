@@ -10,7 +10,7 @@ Prerequisites:
 3. run Powershell in the ESDAR-Checker Directory
 4. Create virtual enviroment according to the following [documentation](https://docs.python.org/3/library/venv.html#creating-virtual-environments) (use ```python -m venv .``` to create the virtualenv in the current directory)
 5. Activate the virtualenv with ```.\Scripts\activate```, if you need help you can look into the following [article](https://realpython.com/python-virtual-environments-a-primer/#activate-it)
-6. When you succesfully activatet the virtual enviroment you can install the missing 'checkdmarc' module with the following Command ``` python -m pip install checkdmarc==4.1.1```
+6. When you succesfully activatet the virtual enviroment you can install the missing 'checkdmarc, validators and colorama' modules with the following Commands ``` python -m pip install checkdmarc==4.1.1```, ``` python -m pip install validators```, ``` python -m pip install colorama```
 7. Open the python file 'config.py' in the ESDAR-Checker directory
 8. and enter the FULL path to the ouptut directory which you can find in the resources folder.
 9. you have to escape every \ with \ so for example 'C:\\Users\\[USERNAME]\\Downloads\\ESDAR-Checker-1.0.0-beta\\resources\\output' or 'C:/Users/[USERNAME]/Downloads/ESDAR-Checker-1.0.0-beta/resources/output' 
