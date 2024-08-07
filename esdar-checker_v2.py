@@ -134,7 +134,7 @@ def lookup_spf_record(domain):
     except dns.resolver.NoAnswer:
         return "no SPF Record found"
     except dns.resolver.LifetimeTimeout:
-        return "Timeout, SPF could not be retrieved"
+        return "Timeout! SPF could not be retrieved"
     for record in txt_records:
         spf_record = "".join([a.decode("utf-8") for a in record.strings])
         if "v=spf" in spf_record:
