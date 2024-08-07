@@ -2,7 +2,7 @@
 ESDAR-Checker should help to check for one or more up to a larger number of domains or URL's whether the following records are present:
 - DMARC
 - SPF
-- DKIM
+- DKIM (requires a selector)
 - MX Records
 
 @author Merlin von der Weide
