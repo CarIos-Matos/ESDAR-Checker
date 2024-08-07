@@ -11,9 +11,10 @@ ESDAR-Checker should help to check for one or more up to a larger number of doma
 """
 import checkdmarc
 import dns.resolver
+from config import update_path
 # Import Libraries for Domain specific check
-#import pkg_resources
-#pkg_resources.require("checkdmarc==4.4.1")
+# import pkg_resources
+# pkg_resources.require("checkdmarc==4.4.1")
 
 
 # Message Styling
@@ -46,8 +47,12 @@ def initialize():
     parser.add_argument("--selector", type=str, default="",
                         help="DKIM selector which is needed for DKIM record lookup")
 
-    parser.add_argument("--append", type=str, default= False,
+    parser.add_argument("--append", type=str, default=False,
                         help="New checked domains are added to already the existing csv file, if no file exists a new file will be created")
+    parser.add_argument("--output_path", type=str, default="resources/output/",
+                        help="""File path where the result should be saved. 
+                        The path has to be an absolute file path e.g /Users/[USERNAME]/ESDAR-Checker/output/
+                        If a invalid path gets provided the default project output path from the Config.py file will be used""")
 
     arguments = parser.parse_args()
     return arguments
@@ -64,7 +69,8 @@ def main(args):
     if args.append == "yes":
         global append_new_lines
         append_new_lines = True
-
+    if is_valid_path(args.output_path):
+        update_path(args.output_path)
     if args.domain:
         domains_list.append(args.domain)
     else:
@@ -86,6 +92,10 @@ def main(args):
 
     else:
         print_error("No domain(s) were provided")
+
+
+def is_valid_path(output_path):
+    return os.path.exists(output_path)
 
 
 ## performs the dns security check and returns the list with the result
@@ -114,6 +124,7 @@ def perform_esdar_check(domains_list):
         """
         print("Unfixed Error / Bug occured for details read message below:\n %s" % e)
         return domains_list_result
+
 
 def lookup_mxrecords(domain):
     print(" MXRecords...")
@@ -166,7 +177,7 @@ def lookup_dmarc_record(domain):
         (record, location, parsed) = dmarc_record_list
         dmarc_record_string += "Record: " + record[1] + "; " + "Location: " + location[1]
         return replace_characters(dmarc_record_string)
-    except (UnverifiedDMARCURIDestination, MultipleDMARCRecords, DMARCRecordNotFound ) as e:
+    except (UnverifiedDMARCURIDestination, MultipleDMARCRecords, DMARCRecordNotFound) as e:
         return e
     except (InvalidDMARCTagValue):
         return "Tag Value Error"
